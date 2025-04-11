@@ -22,7 +22,7 @@ const FormInput = () => {
     if (!url) return;
 
     try {
-      const response = await API.post("/get-video-meta", {
+      const response = await API.post("/api/monitor/get-video-meta", {
         videoUrl: url,
       });
       setVideoMetaData(response.data);
