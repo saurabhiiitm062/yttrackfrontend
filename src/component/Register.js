@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./Register.css";
 
 const Register = () => {
-  const [username, setUsername] = useState(""); // Add username state
+  // const [username, setUsername] = useState(""); // Add username state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
