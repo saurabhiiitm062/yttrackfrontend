@@ -11,7 +11,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const { data } = await API.post("/login", { email, password });
+      const { data } = await API.post("/api/user/login", { email, password });
 
       if (data?.token && data?.userId) {
         localStorage.setItem("userId", data.userId);
