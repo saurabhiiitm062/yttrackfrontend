@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../services/api"
+import API from "../services/api";
 import "./FormInput.css";
 
 const FormInput = () => {
@@ -22,7 +22,7 @@ const FormInput = () => {
     if (!url) return;
 
     try {
-      const response = await API.post("/monitor/get-video-meta", {
+      const response = await API.post("/get-video-meta", {
         videoUrl: url,
       });
       setVideoMetaData(response.data);
