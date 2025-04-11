@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API from "../services/api";
 import "./Register.css";
 
 const Register = () => {
-  // const [username, setUsername] = useState(""); // Add username state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -14,7 +13,8 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
+    setError(null);
+
     if (!email || !password || !confirmPassword) {
       setError("All fields are required.");
       return;
@@ -26,16 +26,12 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:4343/api/user/register",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await API.post("/register", {
+        email,
+        password,
+      });
 
       if (response.status === 201) {
-        // Redirect to login page after successful registration
         alert("Registration successful!");
         navigate("/login");
       } else {
@@ -44,8 +40,10 @@ const Register = () => {
         );
       }
     } catch (err) {
-      console.error("Registration failed", err);
-      setError("Failed to register. Please try again.");
+      console.error("Registration failed:", err.response?.data || err.message);
+      setError(
+        err.response?.data?.message || "Failed to register. Please try again."
+      );
     }
   };
 
@@ -62,6 +60,7 @@ const Register = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label>Password:</label>
           <input
@@ -71,6 +70,7 @@ const Register = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label>Confirm Password:</label>
           <input
@@ -80,7 +80,9 @@ const Register = () => {
             required
           />
         </div>
-        {error && <p className="error">{error}</p>}
+
+        {error && <p className="error-message">{error}</p>}
+
         <button type="submit">Register</button>
       </form>
     </div>

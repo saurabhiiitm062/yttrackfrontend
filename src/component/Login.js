@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API from "../services/api"; // Using centralized Axios instance
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,28 +9,21 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const { data } = await axios.post(
-        "http://localhost:4343/api/user/login", 
-        {
-          email,
-          password,
-        }
-      );
 
-      if (data) {
+    try {
+      const { data } = await API.post("/login", { email, password });
+
+      if (data?.token && data?.userId) {
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("authToken", data.token);
-
         alert("Login successful!");
         navigate("/userprofile");
-        console.log(data.userId);
       } else {
-        alert("Login failed");
+        alert("Login failed. Please try again.");
       }
     } catch (err) {
-      console.error(err);
-      alert("Invalid credentials");
+      console.error("Login error:", err);
+      alert(err.response?.data?.message || "Invalid credentials.");
     }
   };
 

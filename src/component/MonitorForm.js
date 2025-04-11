@@ -25,7 +25,7 @@ const MonitorForm = () => {
 
     try {
       const response = await axios.post(
-        "/api/monitor",
+        "/monitor",
         { videoUrl, youtubeUserId, userEmail },
         { headers: { Authorization: `Bearer ${token}` } }
       );
