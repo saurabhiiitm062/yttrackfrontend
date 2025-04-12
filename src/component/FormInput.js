@@ -7,6 +7,7 @@ const FormInput = () => {
   const [videoUrl, setVideoUrl] = useState("");
   const [videoMetaData, setVideoMetaData] = useState(null);
   const navigate = useNavigate();
+  console.log(videoMetaData, "metadata");
 
   const handleVideoUrlChange = (e) => {
     setVideoUrl(e.target.value);
@@ -25,6 +26,7 @@ const FormInput = () => {
       const response = await API.post("/api/monitor/get-video-meta", {
         videoUrl: url,
       });
+      console.log(response.data, "response data");
       setVideoMetaData(response.data);
     } catch (err) {
       console.error("Error fetching video metadata:", err);
@@ -78,11 +80,33 @@ const FormInput = () => {
       {videoMetaData && (
         <div className="video-metadata">
           <p>
-            <strong>Title:</strong> {videoMetaData.title}
+            <strong>Channel Name:</strong> {videoMetaData.channelTitle}
           </p>
           <p>
-            <strong>Channel:</strong> {videoMetaData.channel}
+            <p>
+              <strong>Channel Id:</strong> {videoMetaData.channelId}
+            </p>
+            <p></p>
+            <strong>Title:</strong> {videoMetaData.title}
           </p>
+
+          <img src={videoMetaData.thumbnails.standard.url} alt="" />
+          <p>
+            <strong>Likes:</strong> {videoMetaData.statistics?.likeCount}
+          </p>
+          <p>
+            <strong>Views:</strong> {videoMetaData.statistics?.viewCount}
+          </p>
+          <p>
+            <strong>Comments:</strong> {videoMetaData.statistics?.commentCount}
+          </p>
+          <p>
+            <strong>Description:</strong> {videoMetaData.description}
+          </p>
+          <p>
+            <strong>Published At:</strong> {videoMetaData.publishedAt}
+          </p>
+
           {/* Add more metadata fields as needed */}
         </div>
       )}
